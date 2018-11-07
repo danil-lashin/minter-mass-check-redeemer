@@ -36,7 +36,7 @@ func main() {
 		panic(err)
 	}
 
-	for j := t; j < t + 10000; j++ {
+	for j := t * 10000; j < (t + 1) * 10000; j++ {
 		createAndRedeemCheck(uint64(j))
 	}
 
@@ -90,7 +90,7 @@ func createAndRedeemCheck(i uint64) {
 	transaction.Sign(receiverPrivateKey)
 
 	encodedTx, _ := rlp.EncodeToBytes(transaction)
-	req := "http://" + os.Args[3] + "/broadcast_tx_sync?tx=0x" + fmt.Sprintf("%x", encodedTx)
+	req := "http://" + os.Args[3] + ":26657/broadcast_tx_sync?tx=0x" + fmt.Sprintf("%x", encodedTx)
 	_, body, _ := fasthttp.Get(nil, req)
 	println(i, string(body))
 }
